@@ -1,5 +1,4 @@
 import http.server
-import signal
 import socketserver
 import multiprocessing
 
