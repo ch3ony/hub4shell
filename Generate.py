@@ -11,6 +11,7 @@ def generateClass(command, class_name="sample"):
     CLASS_OUT = f"./tmp/{class_name}.class"
     SERVER_OUT = f"./root/{class_name}.class"
 
+    print(command)
     cmds = command.split(" ")
     cmds = json.dumps(cmds)[1:-1]
 
