@@ -38,5 +38,5 @@ def generateClass(command, class_name="sample"):
 
 
 if __name__ == "__main__":
-    cmd = "touch /tmp/hihi222"
+    cmd = "touch /tmp/hihi222333"
     generateClass(cmd, )
