@@ -29,6 +29,3 @@ def generateClass(command, class_name="exploit"):
 
     # compile java file
     subprocess.Popen(f'javac {TEMPLATE_OUT}', shell=True).wait()
-
-
-if __name__ == "__main__":
