@@ -2,8 +2,9 @@ import string
 import random
 import socket
 from PyInquirer import prompt, style_from_dict, Token
+import colorama
 import psutil
-from termcolor import colored
+from termcolor import *
 import platform
 import re
 
