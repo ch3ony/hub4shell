@@ -11,7 +11,6 @@ def generateClass(command, class_name="sample"):
     CLASS_OUT = f"./tmp/{class_name}.class"
     SERVER_OUT = f"./root/{class_name}.class"
 
-    print(command)
     cmds = command.split(" ")
     cmds = json.dumps(cmds)[1:-1]
 
@@ -37,7 +36,7 @@ def generateClass(command, class_name="sample"):
     # delete script on tmp
     os.remove(TEMPLATE_OUT)
 
-
+#debug main
 if __name__ == "__main__":
     cmd = "touch /tmp/hihi222333"
     generateClass(cmd, )

@@ -9,11 +9,11 @@ import platform
 import re
 
 LOGO = """
-                     _  _       _          _ _ 
- ___  ___  ___ _   _| || |  ___| |__   ___| | |
-/ __|/ _ \/ __| | | | || |_/ __| '_ \ / _ \ | |
-\__ \  __/ (__| |_| |__   _\__ \ | | |  __/ | |
-|___/\___|\___|\__,_|  |_| |___/_| |_|\___|_|_|
+ _           _     _  _       _          _ _ 
+| |__  _   _| |__ | || |  ___| |__   ___| | |
+| '_ \| | | | '_ \| || |_/ __| '_ \ / _ \ | |
+| | | | |_| | |_) |__   _\__ \ | | |  __/ | |
+|_| |_|\__,_|_.__/   |_| |___/_| |_|\___|_|_|
              @Youngcheon & Kyuwan
 """
 
@@ -43,7 +43,7 @@ def printInputPrompt(name, message):
             'message': message,
         }
     ]
-    pmt = prompt(questions, style=style)[name]
+    pmt = prompt(questions, style=style, qmark='[?]')[name]
     return pmt
 
 def printListPrompt(name, message, list):
@@ -72,15 +72,17 @@ def getAddress():
             list.append(ip)
     return list
 
-def killPythonProcee():
+def killPythonProcess():
     net = psutil.net_connections()
     for con in net:
         if(con[3][1]==LDAP_PORT or con[3][1]==HTTP_PORT):
-            parent = psutil.Process(con[6])
-            for child in parent.children(recursive=True):
-                child.kill()
-            parent.kill()
-
+            try:
+                parent = psutil.Process(con[6])
+                for child in parent.children(recursive=True):
+                    child.kill()
+                parent.kill()
+            except:
+                return
 
 if __name__ == "__main__":
-    killPythonProcee()
+    killPythonProcess()

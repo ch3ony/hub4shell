@@ -16,7 +16,7 @@ def httpServer(port, directory=DIRECTORY):
     with socketserver.TCPServer(("", port), Handler) as httpd:
         httpd.serve_forever()
 
-
+#debug main
 if __name__ == "__main__":
     server = multiprocessing.Process(target=httpServer, args=(8888,))
     server.start()
