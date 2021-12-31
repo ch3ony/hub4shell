@@ -88,7 +88,7 @@ def OpenLDAPService(host, port, hport):
                         print(colored("[-] Connection Suspended", "red"))
                         return
 
-                    command = Utils.printPrompt("command", "[?] Command : ")
+                    command = Utils.printInputPrompt("command", "[?] Command : ")
                     print(colored("[+] Command was sent succefully.\n", "green"))
 
                     className = Utils.randomName()

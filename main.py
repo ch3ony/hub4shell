@@ -1,9 +1,7 @@
-
+import Utils as ut
 
 def main():
-    #이쁜 로고 출력
-    #netadapter
-    #
+    print(ut.getAddress())
 
 if __name__ == "__main__":
     main()
