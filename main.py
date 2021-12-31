@@ -10,7 +10,7 @@ def init():
 
 def main():
     #logo printng
-    print(ut.colored(ut.LOGO, 'yellow'))
+    ut.cprint(ut.LOGO, 'yellow')
 
     #IP input
     ip = ut.printListPrompt('IP', 'Choose the ip :', ut.getAddress())

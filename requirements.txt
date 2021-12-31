@@ -1,2 +1,4 @@
-PyInquirer == 1.0.3
-termcolor == 1.1.0
+colorama==0.4.4
+psutil==5.9.0
+PyInquirer==1.0.3
+termcolor==1.1.0

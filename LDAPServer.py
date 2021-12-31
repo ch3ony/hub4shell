@@ -1,5 +1,4 @@
 from datetime import datetime
-from termcolor import colored
 import socket
 import Utils as ut
 import time
