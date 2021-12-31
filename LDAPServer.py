@@ -114,4 +114,4 @@ def OpenLDAPService(host, port, hport):
 
 
 if __name__ == "__main__":
-    OpenLDAPService('192.168.50.99', 12345, 12346)
+    OpenLDAPService('192.168.200.212', 65210, 65211)

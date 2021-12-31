@@ -27,6 +27,9 @@ style = style_from_dict({
     Token.Question: '',
 })
 
+LDAP_PORT = 65210
+HTTP_PORT = 65211
+
 def randomName():
     className = ''.join(random.choice(string.ascii_lowercase) for _ in range(6))
     return className
@@ -68,7 +71,15 @@ def getAddress():
             list.append(ip)
     return list
 
+def killPythonProcee():
+    net = psutil.net_connections()
+    for con in net:
+        if(con[3][1]==LDAP_PORT or con[3][1]==HTTP_PORT):
+            parent = psutil.Process(con[6])
+            for child in parent.children(recursive=True):
+                child.kill()
+            parent.kill()
+
 
 if __name__ == "__main__":
-    ip = printListPrompt('ip', 'choose the ip : ', getAddress())
-    print(colored(LOGO, 'green'))
+    killPythonProcee()
