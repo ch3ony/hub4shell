@@ -1,5 +1,6 @@
 import string
 import random
+import socket
 from PyInquirer import prompt
 
 def randomName():
@@ -18,6 +19,10 @@ def printPrompt(name, message):
 
     return pmt
 
+def getAddress():
+    print(socket.gethostbyname(socket.gethostname()))
+    return
+
 
 if __name__ == "__main__":
-    print(randomName())
+    getAddress()
