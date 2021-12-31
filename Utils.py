@@ -3,8 +3,18 @@ import random
 import socket
 from PyInquirer import prompt
 import psutil
+from termcolor import colored
 import platform
 import re
+
+LOGO = """
+                     _  _       _          _ _ 
+ ___  ___  ___ _   _| || |  ___| |__   ___| | |
+/ __|/ _ \/ __| | | | || |_/ __| '_ \ / _ \ | |
+\__ \  __/ (__| |_| |__   _\__ \ | | |  __/ | |
+|___/\___|\___|\__,_|  |_| |___/_| |_|\___|_|_|
+             @Youngcheon & Kyuwan
+"""
 
 def randomName():
     className = ''.join(random.choice(string.ascii_lowercase) for _ in range(6))
@@ -47,5 +57,4 @@ def getAddress():
 
 
 if __name__ == "__main__":
-    ip = printListPrompt('ip', 'choose the ip : ', getAddress())
-    print(ip)
+    print(colored(LOGO, 'green'))
