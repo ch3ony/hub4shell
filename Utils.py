@@ -1,7 +1,7 @@
 import string
 import random
 import socket
-from PyInquirer import prompt
+from PyInquirer import prompt, style_from_dict, Token
 import psutil
 from termcolor import colored
 import platform
@@ -71,3 +71,4 @@ def getAddress():
 
 if __name__ == "__main__":
     ip = printListPrompt('ip', 'choose the ip : ', getAddress())
+    print(colored(LOGO, 'green'))
