@@ -3,6 +3,8 @@ import random
 import socket
 from PyInquirer import prompt
 import psutil
+import platform
+import re
 
 def randomName():
     className = ''.join(random.choice(string.ascii_lowercase) for _ in range(6))
@@ -21,10 +23,18 @@ def printPrompt(name, message):
     return pmt
 
 def getAddress():
-    addrs = psutil.net_if_addrs()
-    for addr in addrs.keys() :
-        print(addrs[addr][1][1])
+    print(platform.system())
+    if platform.system()=="Windows":
+        addrs = psutil.net_if_addrs()
+        list = []
+        for addr in addrs.keys() :
+            ip = addrs[addr][1][1]
+            if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$",ip):
+                list.append(ip)
+        return list
+    elif platform.system()=="Linux":
+        return
 
 
 if __name__ == "__main__":
-    getAddress()
+    print(getAddress())
